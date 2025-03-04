@@ -6,40 +6,29 @@ class AddressBook {
         this.contacts = [];
     }
 
-    // Adding a new contact
+    // Adding a contact to the address book
     addContact(contact) {
         this.contacts.push(contact);
-        console.log(`✅ Contact added successfully to ${this.name}!`);
+        console.log(`✅ Contact added to ${this.name}`);
     }
 
-    // Viewing persons by city
-    viewByCity(city) {
-        let filteredContacts = this.contacts.filter(contact => contact.city === city);
-        console.log(`📖 People in ${city}:`);
-        filteredContacts.forEach(contact => console.log(contact.toString()));
-        return filteredContacts;
+    // Sorting contacts alphabetically by first name
+    sortByName() {
+        this.contacts.sort((a, b) => a.firstName.localeCompare(b.firstName));
+        console.log(`\n📖 Sorted Address Book (${this.name}) by Name:`);
+        this.contacts.forEach(contact => console.log(contact.toString()));
     }
 
-    // Viewing persons by state
-    viewByState(state) {
-        let filteredContacts = this.contacts.filter(contact => contact.state === state);
-        console.log(`📖 People in ${state}:`);
-        filteredContacts.forEach(contact => console.log(contact.toString()));
-        return filteredContacts;
-    }
-
-    // Getting count of contacts by city
-    getCountByCity(city) {
-        return this.contacts.filter(contact => contact.city === city).length;
-    }
-
-    // Getting count of contacts by state
-    getCountByState(state) {
-        return this.contacts.filter(contact => contact.state === state).length;
+    // Sorting using JavaScript ES6 Array Functions (map, sort)
+    sortByNameWithMap() {
+        let sortedContacts = [...this.contacts].sort((a, b) => a.firstName.localeCompare(b.firstName));
+        console.log(`\n📖 Sorted Address Book (${this.name}) by Name using Array Functions:`);
+        sortedContacts.map(contact => console.log(contact.toString()));
     }
 }
 
 // Exporting AddressBook class
 module.exports = AddressBook;
+
 
 

@@ -1,4 +1,3 @@
-// Creating Contact class with properties
 class Contact {
     constructor(firstName, lastName, address, city, state, zip, phoneNumber, email) {
         this.firstName = firstName;
@@ -11,12 +10,13 @@ class Contact {
         this.email = email;
     }
 
-    // Displaying contact details as a string
+    // Overriding toString() method (Using a function in JS)
     toString() {
         return `${this.firstName} ${this.lastName}, ${this.address}, ${this.city}, ${this.state} - ${this.zip}, 📞 ${this.phoneNumber}, ✉️ ${this.email}`;
     }
 }
 
-// Exporting Contact class
+// Exporting the Contact class for use in other files
 module.exports = Contact;
+
 
