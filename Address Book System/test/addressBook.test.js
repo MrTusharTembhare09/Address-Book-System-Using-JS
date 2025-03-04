@@ -1,18 +1,17 @@
-const { AddressBookSystem, Contact } = require('../src/addressBook');
+const AddressBookSystem = require("../src/addressBook");
 
 const testSystem = new AddressBookSystem();
-testSystem.createAddressBook("Work");
+testSystem.createAddressBook("Personal");
 
-// Adding a contact
-testSystem.addContactToBook("Work", new Contact("Rahul", "Sharma", "Andheri", "Mumbai", "Maharashtra", "400001", "9876543211", "rahul@example.com"));
+testSystem.addContact("Personal", { firstName: "Tushar", lastName: "Tembhare", phone: "9876543210" });
+testSystem.addContact("Personal", { firstName: "Rahul", lastName: "Sharma", phone: "9876543211" });
 
-// Editing a contact
-testSystem.editContactInBook("Work", "Rahul", "Sharma", { phone: "9234567890", zip: "400002" });
+console.log("\n📚 All Address Books Before Deletion:");
+console.log(testSystem.addressBooks);
 
-// Trying to edit a non-existent contact
-testSystem.editContactInBook("Work", "John", "Doe", { city: "Delhi" });
+testSystem.deleteContact("Personal", "Tushar Tembhare");
 
-console.log("✅ All Tests Executed!");
-
+console.log("\n📚 All Address Books After Deletion:");
+console.log(testSystem.addressBooks);
 
 
