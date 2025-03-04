@@ -1,4 +1,4 @@
-// Contact class (Same as UC2)
+// Contact class (Same as previous use cases)
 class Contact {
     constructor(firstName, lastName, address, city, state, zip, phone, email) {
         this.firstName = firstName;
@@ -11,7 +11,7 @@ class Contact {
         this.email = email;
     }
 
-    // Validation (Same as UC2)
+    // Validation method (Same as UC2)
     static validateContact(contact) {
         const nameRegex = /^[A-Z][a-z]{2,}$/;
         const addressRegex = /^[A-Za-z0-9\s]{4,}$/;
@@ -37,7 +37,7 @@ class Contact {
     }
 }
 
-// AddressBook class (Stores contacts, handles multiple books)
+// AddressBook class (Handles contacts)
 class AddressBook {
     constructor(name) {
         this.name = name;
@@ -52,6 +52,35 @@ class AddressBook {
             console.log(`✅ Contact added successfully to ${this.name}!`);
         } catch (error) {
             console.error(error.message);
+        }
+    }
+
+    // Finding a contact by name
+    findContact(firstName, lastName) {
+        return this.contacts.find(contact => contact.firstName === firstName && contact.lastName === lastName);
+    }
+
+    // Editing an existing contact
+    editContact(firstName, lastName, newDetails) {
+        let contact = this.findContact(firstName, lastName);
+        if (!contact) {
+            console.log(`❌ Contact ${firstName} ${lastName} not found.`);
+            return;
+        }
+
+        // Updating the contact details if provided
+        contact.address = newDetails.address || contact.address;
+        contact.city = newDetails.city || contact.city;
+        contact.state = newDetails.state || contact.state;
+        contact.zip = newDetails.zip || contact.zip;
+        contact.phone = newDetails.phone || contact.phone;
+        contact.email = newDetails.email || contact.email;
+
+        try {
+            Contact.validateContact(contact);
+            console.log(`✅ Contact ${firstName} ${lastName} updated successfully.`);
+        } catch (error) {
+            console.error("❌ Update Failed: " + error.message);
         }
     }
 
@@ -89,6 +118,15 @@ class AddressBookSystem {
         this.addressBooks.get(bookName).addContact(contact);
     }
 
+    // Editing a contact in a specific book
+    editContactInBook(bookName, firstName, lastName, newDetails) {
+        if (!this.addressBooks.has(bookName)) {
+            console.log(`❌ Address Book "${bookName}" not found.`);
+            return;
+        }
+        this.addressBooks.get(bookName).editContact(firstName, lastName, newDetails);
+    }
+
     // Display all books and their contacts
     displayAllBooks() {
         console.log("\n📚 All Address Books:");
@@ -101,12 +139,12 @@ class AddressBookSystem {
 // Example Usage
 const mySystem = new AddressBookSystem();
 mySystem.createAddressBook("Personal");
-mySystem.createAddressBook("Work");
 
-// Adding contacts to "Personal" Address Book
+// Adding a contact
 mySystem.addContactToBook("Personal", new Contact("Tushar", "Tembhare", "MG Road", "Gondia", "Maharashtra", "441601", "9876543210", "tushar@example.com"));
-mySystem.addContactToBook("Work", new Contact("Rahul", "Sharma", "Andheri", "Mumbai", "Maharashtra", "400001", "9876543211", "rahul@example.com"));
+
+// Editing the contact
+mySystem.editContactInBook("Personal", "Tushar", "Tembhare", { phone: "9123456789", city: "Nagpur" });
 
 // Display all books
 mySystem.displayAllBooks();
-
