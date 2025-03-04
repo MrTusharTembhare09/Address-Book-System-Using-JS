@@ -11,29 +11,24 @@ class AddressBookSystem {
     }
 
     addContact(bookName, contact) {
-        if (this.addressBooks[bookName]) {
-            this.addressBooks[bookName].push(contact);
-            console.log(`✅ Contact added successfully to ${bookName}!`);
-        } else {
+        if (!this.addressBooks[bookName]) {
             console.log(`❌ Address Book "${bookName}" not found!`);
+            return;
         }
-    }
 
-    deleteContact(bookName, fullName) {
-        if (this.addressBooks[bookName]) {
-            const initialLength = this.addressBooks[bookName].length;
-            this.addressBooks[bookName] = this.addressBooks[bookName].filter(
-                (contact) => `${contact.firstName} ${contact.lastName}` !== fullName
-            );
+        // Checking for duplicate entries using filter
+        const isDuplicate = this.addressBooks[bookName]
+            .filter(c => `${c.firstName} ${c.lastName}` === `${contact.firstName} ${contact.lastName}`)
+            .length > 0;
 
-            if (this.addressBooks[bookName].length < initialLength) {
-                console.log(`🗑️ Contact "${fullName}" deleted successfully from ${bookName}!`);
-            } else {
-                console.log(`❌ Contact "${fullName}" not found in ${bookName}!`);
-            }
-        } else {
-            console.log(`❌ Address Book "${bookName}" not found!`);
+        if (isDuplicate) {
+            console.log(`❌ Duplicate Entry! Contact "${contact.firstName} ${contact.lastName}" already exists in ${bookName}.`);
+            return;
         }
+
+        // Adding contact if it's not a duplicate
+        this.addressBooks[bookName].push(contact);
+        console.log(`✅ Contact added successfully to ${bookName}!`);
     }
 
     getContactCount() {
