@@ -35,7 +35,11 @@ class AddressBookSystem {
             console.log(`❌ Address Book "${bookName}" not found!`);
         }
     }
+
+    getContactCount() {
+        return Object.values(this.addressBooks)
+            .reduce((total, contacts) => total + contacts.length, 0);
+    }
 }
 
 module.exports = AddressBookSystem;
-

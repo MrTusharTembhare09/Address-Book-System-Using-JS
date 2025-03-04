@@ -2,16 +2,16 @@ const AddressBookSystem = require("../src/addressBook");
 
 const testSystem = new AddressBookSystem();
 testSystem.createAddressBook("Personal");
+testSystem.createAddressBook("Work");
 
 testSystem.addContact("Personal", { firstName: "Tushar", lastName: "Tembhare", phone: "9876543210" });
-testSystem.addContact("Personal", { firstName: "Rahul", lastName: "Sharma", phone: "9876543211" });
+testSystem.addContact("Work", { firstName: "Rahul", lastName: "Sharma", phone: "9876543211" });
 
-console.log("\n📚 All Address Books Before Deletion:");
-console.log(testSystem.addressBooks);
+console.log("\n📚 Total Contacts Count:", testSystem.getContactCount()); // Expected Output: 2
 
-testSystem.deleteContact("Personal", "Tushar Tembhare");
+testSystem.addContact("Work", { firstName: "Amit", lastName: "Kumar", phone: "9876543212" });
 
-console.log("\n📚 All Address Books After Deletion:");
-console.log(testSystem.addressBooks);
+console.log("\n📚 Updated Total Contacts Count:", testSystem.getContactCount()); // Expected Output: 3
+
 
 
