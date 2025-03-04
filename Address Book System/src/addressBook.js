@@ -1,4 +1,4 @@
-// Creating a Contact class to store address book details
+// Contact class (Same as UC2)
 class Contact {
     constructor(firstName, lastName, address, city, state, zip, phone, email) {
         this.firstName = firstName;
@@ -11,12 +11,12 @@ class Contact {
         this.email = email;
     }
 
-    // Validating the contact details before adding
+    // Validation (Same as UC2)
     static validateContact(contact) {
-        const nameRegex = /^[A-Z][a-z]{2,}$/;  // First letter capital, min 3 chars
-        const addressRegex = /^[A-Za-z0-9\s]{4,}$/; // Min 4 characters
-        const phoneRegex = /^[6-9]\d{9}$/;     // 10-digit Indian phone number
-        const zipRegex = /^\d{6}$/;            // 6-digit zip code
+        const nameRegex = /^[A-Z][a-z]{2,}$/;
+        const addressRegex = /^[A-Za-z0-9\s]{4,}$/;
+        const phoneRegex = /^[6-9]\d{9}$/;
+        const zipRegex = /^\d{6}$/;
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         if (!nameRegex.test(contact.firstName) || !nameRegex.test(contact.lastName)) {
@@ -37,42 +37,76 @@ class Contact {
     }
 }
 
-// Creating an Address Book to store contacts
+// AddressBook class (Stores contacts, handles multiple books)
 class AddressBook {
-    constructor() {
+    constructor(name) {
+        this.name = name;
         this.contacts = [];
     }
 
-    // Adding a contact to the address book
+    // Adding a contact
     addContact(contact) {
         try {
-            Contact.validateContact(contact);  // Validating before adding
+            Contact.validateContact(contact);
             this.contacts.push(contact);
-            console.log("✅ Contact added successfully!");
+            console.log(`✅ Contact added successfully to ${this.name}!`);
         } catch (error) {
             console.error(error.message);
         }
     }
 
-    // Displaying all contacts
+    // Display contacts
     displayContacts() {
-        console.log("\n📒 Address Book Contacts:");
+        console.log(`\n📖 Address Book: ${this.name}`);
         this.contacts.forEach((contact, index) => {
             console.log(`${index + 1}. ${contact.firstName} ${contact.lastName} - ${contact.phone}`);
         });
     }
 }
 
-// Example Usage
-const myAddressBook = new AddressBook();
-try {
-    const validContact = new Contact("Tushar", "Tembhare", "MG Road", "Gondia", "Maharashtra", "441601", "9876543210", "tushar@example.com");
-    myAddressBook.addContact(validContact);
-    myAddressBook.displayContacts();
+// AddressBookSystem class to manage multiple books
+class AddressBookSystem {
+    constructor() {
+        this.addressBooks = new Map();
+    }
 
-    // Invalid Contact (Should fail)
-    const invalidContact = new Contact("tu", "te", "abc", "xy", "M", "44160", "12345", "invalid.com");
-    myAddressBook.addContact(invalidContact);
-} catch (error) {
-    console.error("❌ " + error.message);
+    // Creating a new Address Book
+    createAddressBook(bookName) {
+        if (this.addressBooks.has(bookName)) {
+            console.log(`❌ Address Book "${bookName}" already exists.`);
+            return;
+        }
+        this.addressBooks.set(bookName, new AddressBook(bookName));
+        console.log(`📂 New Address Book "${bookName}" created successfully!`);
+    }
+
+    // Adding a contact to a specific book
+    addContactToBook(bookName, contact) {
+        if (!this.addressBooks.has(bookName)) {
+            console.log(`❌ Address Book "${bookName}" not found.`);
+            return;
+        }
+        this.addressBooks.get(bookName).addContact(contact);
+    }
+
+    // Display all books and their contacts
+    displayAllBooks() {
+        console.log("\n📚 All Address Books:");
+        this.addressBooks.forEach((book, name) => {
+            book.displayContacts();
+        });
+    }
 }
+
+// Example Usage
+const mySystem = new AddressBookSystem();
+mySystem.createAddressBook("Personal");
+mySystem.createAddressBook("Work");
+
+// Adding contacts to "Personal" Address Book
+mySystem.addContactToBook("Personal", new Contact("Tushar", "Tembhare", "MG Road", "Gondia", "Maharashtra", "441601", "9876543210", "tushar@example.com"));
+mySystem.addContactToBook("Work", new Contact("Rahul", "Sharma", "Andheri", "Mumbai", "Maharashtra", "400001", "9876543211", "rahul@example.com"));
+
+// Display all books
+mySystem.displayAllBooks();
+
