@@ -27,7 +27,19 @@ class AddressBook {
         filteredContacts.forEach(contact => console.log(contact.toString()));
         return filteredContacts;
     }
+
+    // Getting count of contacts by city
+    getCountByCity(city) {
+        return this.contacts.filter(contact => contact.city === city).length;
+    }
+
+    // Getting count of contacts by state
+    getCountByState(state) {
+        return this.contacts.filter(contact => contact.state === state).length;
+    }
 }
 
 // Exporting AddressBook class
 module.exports = AddressBook;
+
+

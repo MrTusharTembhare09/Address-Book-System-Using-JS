@@ -39,6 +39,24 @@ class AddressBookSystem {
             addressBook.viewByState(state);
         });
     }
+
+    // **UC10: Get Count of Contacts by City Across Address Books**
+    getCountByCity(city) {
+        let totalCount = Array.from(this.addressBooks.values())
+            .map(addressBook => addressBook.getCountByCity(city)) // Extract counts
+            .reduce((total, count) => total + count, 0); // Sum up counts
+        console.log(`🏙️ Total number of contacts in ${city}: ${totalCount}`);
+        return totalCount;
+    }
+
+    // **UC10: Get Count of Contacts by State Across Address Books**
+    getCountByState(state) {
+        let totalCount = Array.from(this.addressBooks.values())
+            .map(addressBook => addressBook.getCountByState(state)) // Extract counts
+            .reduce((total, count) => total + count, 0); // Sum up counts
+        console.log(`🌎 Total number of contacts in ${state}: ${totalCount}`);
+        return totalCount;
+    }
 }
 
 // Exporting AddressBookSystem class
