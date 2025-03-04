@@ -1,61 +1,33 @@
-// Creating AddressBookSystem class
-class AddressBookSystem {
-    constructor() {
-        this.addressBooks = new Map(); // Stores multiple address books
+const Contact = require("./contact");
+
+class AddressBook {
+    constructor(name) {
+        this.name = name;
+        this.contacts = [];
     }
 
-    // Creating a new address book
-    createAddressBook(name) {
-        if (!this.addressBooks.has(name)) {
-            this.addressBooks.set(name, []);
-            console.log(`📂 New Address Book "${name}" created successfully!`);
-        } else {
-            console.log(`⚠️ Address Book "${name}" already exists.`);
-        }
+    // Adding a new contact
+    addContact(contact) {
+        this.contacts.push(contact);
+        console.log(`✅ Contact added successfully to ${this.name}!`);
     }
 
-    // Adding a new contact to the specific address book
-    addContact(bookName, contact) {
-        if (!this.addressBooks.has(bookName)) {
-            console.log(`❌ Address Book "${bookName}" does not exist.`);
-            return;
-        }
-
-        // Checking for duplicate entries
-        let existingContacts = this.addressBooks.get(bookName);
-        if (existingContacts.some(c => c.firstName === contact.firstName && c.lastName === contact.lastName)) {
-            console.log(`⚠️ Contact "${contact.firstName} ${contact.lastName}" already exists in "${bookName}".`);
-            return;
-        }
-
-        existingContacts.push(contact);
-        console.log(`✅ Contact added successfully to ${bookName}!`);
+    // Viewing persons by city
+    viewByCity(city) {
+        let filteredContacts = this.contacts.filter(contact => contact.city === city);
+        console.log(`📖 People in ${city}:`);
+        filteredContacts.forEach(contact => console.log(contact.toString()));
+        return filteredContacts;
     }
 
-    // Searching for persons in a particular city
-    searchByCity(city) {
-        let results = [];
-        this.addressBooks.forEach((contacts, bookName) => {
-            let matches = contacts.filter(contact => contact.city === city);
-            results.push(...matches.map(contact => ({ bookName, ...contact })));
-        });
-
-        console.log(`🔍 Found ${results.length} contacts in city "${city}"`);
-        return results;
-    }
-
-    // Searching for persons in a particular state
-    searchByState(state) {
-        let results = [];
-        this.addressBooks.forEach((contacts, bookName) => {
-            let matches = contacts.filter(contact => contact.state === state);
-            results.push(...matches.map(contact => ({ bookName, ...contact })));
-        });
-
-        console.log(`🔍 Found ${results.length} contacts in state "${state}"`);
-        return results;
+    // Viewing persons by state
+    viewByState(state) {
+        let filteredContacts = this.contacts.filter(contact => contact.state === state);
+        console.log(`📖 People in ${state}:`);
+        filteredContacts.forEach(contact => console.log(contact.toString()));
+        return filteredContacts;
     }
 }
 
-// Exporting the class for testing
-module.exports = AddressBookSystem;
+// Exporting AddressBook class
+module.exports = AddressBook;
